@@ -3,18 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// These should be populated in your .env file
+// Live Firebase configuration connected to Sankey Events
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCKFqcNNIHlb9BxQWNNEJPqj4lOgEt8BtQ",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "sanskey-events.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "sanskey-events",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "sanskey-events.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "297931424748",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:297931424748:web:6e1ae2b07fdd2e35def6c9",
 };
 
-// Safe initialization so local development won't crash when env variables are not set
+// Safe initialization
 let app = null;
 let auth = null;
 let googleProvider = null;
@@ -31,8 +30,6 @@ if (firebaseConfig.apiKey) {
   } catch (err) {
     console.warn("Failed to initialize Firebase:", err);
   }
-} else {
-  console.warn("Firebase API key missing in environment variables. Firebase features are disabled locally.");
 }
 
 export { app, auth, googleProvider, yahooProvider, db };
