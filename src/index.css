@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-ivory: #FDF5ED;
+  --color-brand-beige: #F1E5D6;
+  --color-brand-gold: #B68B4A;
+  --color-brand-bronze: #A07436;
+  --color-brand-black: #1A1A1A;
+  --color-brand-dark: #2A2A2A;
+
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+  body {
+    @apply bg-brand-ivory text-brand-black font-sans antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}

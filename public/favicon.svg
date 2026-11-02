@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" role="img" aria-label="Sankey Events">
+  <rect width="220" height="120" fill="#FDFBF7"/>
+  <text x="110" y="54" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="38" letter-spacing="9" fill="#1A1A1A">SANKEY</text>
+  <line x1="38" y1="82" x2="82" y2="82" stroke="#B88648" stroke-width="2"/>
+  <text x="110" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="500" letter-spacing="8" fill="#B88648">EVENTS</text>
+  <line x1="138" y1="82" x2="182" y2="82" stroke="#B88648" stroke-width="2"/>
+</svg>

@@ -1,0 +1,117 @@
+{
+  "logoImage": "/uploads/south-india-queen-logo.jpeg",
+  "pageTitleMain": "South India",
+  "pageTitleHighlight": "Queen",
+  "pageTitleSuffix": "2026",
+  "subtitle": "Miss Popular",
+  "introDescription": "Voting has officially closed. The final results and standings are shown below.",
+  "timeFrameText": "Voting Closed",
+  "leaderboardTitle": "Live Standings",
+  "models": [
+    {
+      "name": "Contestant 1",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_1.jpeg"
+    },
+    {
+      "name": "Contestant 2",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_2.jpeg"
+    },
+    {
+      "name": "Contestant 3",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_3.jpeg"
+    },
+    {
+      "name": "Contestant 4",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_4.jpeg"
+    },
+    {
+      "name": "Contestant 5",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_5.jpeg"
+    },
+    {
+      "name": "Contestant 6",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_6.jpeg"
+    },
+    {
+      "name": "Contestant 7",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_7.jpeg"
+    },
+    {
+      "name": "Contestant 8",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_8.jpeg"
+    },
+    {
+      "name": "Contestant 9",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_9.jpeg"
+    },
+    {
+      "name": "Contestant 10",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_10.jpeg"
+    },
+    {
+      "name": "Contestant 11",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_11.jpeg"
+    },
+    {
+      "name": "Contestant 12",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_12.jpeg"
+    },
+    {
+      "name": "Contestant 13",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_13.jpeg"
+    },
+    {
+      "name": "Contestant 14",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_14.jpeg"
+    },
+    {
+      "name": "Contestant 15",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_15.jpeg"
+    },
+    {
+      "name": "Contestant 16",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_16.jpeg"
+    },
+    {
+      "name": "Contestant 17",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_17.jpeg"
+    },
+    {
+      "name": "Contestant 18",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_18.jpeg"
+    },
+    {
+      "name": "Contestant 19",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_19.jpeg"
+    },
+    {
+      "name": "Contestant 20",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_20.jpeg"
+    },
+    {
+      "name": "Contestant 21",
+      "title": "South India Queen Contestant",
+      "image": "/uploads/models/model_21.jpeg"
+    }
+  ]
+}
