@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Crown, Sparkles, ChevronRight } from 'lucide-react';
+import { Crown, Sparkles, ChevronRight, BarChart3, TrendingUp, Trophy, Award, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import modelsData from '../data/pages/models.json';
@@ -35,11 +35,24 @@ export default function Voting() {
   }, []);
 
   const maxVotes = Math.max(...Object.values(voteCounts), 1);
+  const totalVotesCast = Object.values(voteCounts).reduce((acc, count) => acc + (count || 0), 0);
   const sortedModels = [...models].sort((a, b) => {
     const votesA = voteCounts[generateSlug(a.name)] || 0;
     const votesB = voteCounts[generateSlug(b.name)] || 0;
     return votesB - votesA;
   });
+
+  const winner = sortedModels[0];
+  const runnerUp1 = sortedModels[1];
+  const runnerUp2 = sortedModels[2];
+
+  const winnerVotes = winner ? (voteCounts[generateSlug(winner.name)] || 0) : 0;
+  const runnerUp1Votes = runnerUp1 ? (voteCounts[generateSlug(runnerUp1.name)] || 0) : 0;
+  const runnerUp2Votes = runnerUp2 ? (voteCounts[generateSlug(runnerUp2.name)] || 0) : 0;
+
+  const leadOverRunnerUp1 = winnerVotes - runnerUp1Votes;
+  const leadOverRunnerUp2 = winnerVotes - runnerUp2Votes;
+  const winnerVoteShare = totalVotesCast > 0 ? ((winnerVotes / totalVotesCast) * 100).toFixed(1) : '0';
 
   return (
     <div className="pt-6 pb-16 md:pt-8 md:pb-24 min-h-screen bg-[#FCFAf5] relative overflow-hidden font-sans">
@@ -84,12 +97,19 @@ export default function Voting() {
             </div>
           )}
 
-          <div className="w-full flex justify-center">
+          <div className="w-full flex flex-wrap justify-center gap-4">
+            <button 
+              onClick={() => document.getElementById('analytics').scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-gradient-to-r from-brand-gold to-[#b5952f] text-white font-bold text-[11px] tracking-[0.2em] uppercase shadow-lg shadow-brand-gold/25 hover:brightness-110 transition-all hover:-translate-y-1"
+            >
+              <BarChart3 size={16} className="mr-2" />
+              Victory & Vote Analysis
+            </button>
             <button 
               onClick={() => document.getElementById('standings').scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-brand-gold text-white font-bold text-[11px] tracking-[0.2em] uppercase shadow-lg shadow-brand-gold/20 hover:bg-[#b5952f] transition-all hover:-translate-y-1"
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-brand-gold/60 bg-white/80 text-brand-gold font-bold text-[11px] tracking-[0.2em] uppercase shadow-md hover:bg-brand-gold hover:text-white transition-all hover:-translate-y-1"
             >
-              View Live Standings
+              Live Standings
               <ChevronRight size={16} className="ml-2" />
             </button>
           </div>
@@ -146,6 +166,302 @@ export default function Voting() {
             </motion.div>
           );
         })}
+      </div>
+
+      {/* --- GRAPHICAL VICTORY & VOTE ANALYSIS SECTION --- */}
+      <div id="analytics" className="container relative z-10 mx-auto px-4 md:px-8 mt-20 max-w-5xl">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold uppercase tracking-widest mb-3">
+            <BarChart3 size={15} /> Client Analytics Dashboard
+          </div>
+          <h2 className="text-3xl md:text-5xl font-serif text-[#1a1a1a] mb-3 uppercase tracking-widest">
+            Victory & Vote Analysis
+          </h2>
+          <p className="text-gray-600 max-w-xl text-sm md:text-base">
+            Comprehensive breakdown of voting margins, top contenders, and victory statistics.
+          </p>
+          <div className="w-16 h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent mt-4"></div>
+        </motion.div>
+
+        {/* 1. KEY METRICS SUMMARY TILES */}
+        {winner && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
+            {/* Winner Card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-[#FFF9E6] to-white p-6 rounded-3xl border border-brand-gold/40 shadow-sm relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="absolute top-3 right-3 text-brand-gold/20">
+                <Trophy size={48} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-brand-gold">Champion</span>
+                <h4 className="text-xl font-serif font-bold text-[#1a1a1a] mt-1">{winner.name}</h4>
+              </div>
+              <div className="mt-4 pt-3 border-t border-brand-gold/20 flex items-baseline justify-between">
+                <span className="text-2xl font-bold text-brand-gold">{winnerVotes.toLocaleString()}</span>
+                <span className="text-xs text-gray-500 font-medium">Winner Votes</span>
+              </div>
+            </motion.div>
+
+            {/* Margin vs 2nd Place */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="absolute top-3 right-3 text-emerald-500/15">
+                <TrendingUp size={48} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-600">Victory Margin</span>
+                <h4 className="text-xl font-serif font-bold text-[#1a1a1a] mt-1">+{leadOverRunnerUp1.toLocaleString()} Votes</h4>
+              </div>
+              <div className="mt-4 pt-3 border-t border-gray-100 flex items-baseline justify-between">
+                <span className="text-xs text-gray-500">Lead ahead of 2nd place ({runnerUp1?.name})</span>
+              </div>
+            </motion.div>
+
+            {/* Total Votes */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="absolute top-3 right-3 text-blue-500/15">
+                <Users size={48} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-blue-600">Total Votes Cast</span>
+                <h4 className="text-xl font-serif font-bold text-[#1a1a1a] mt-1">{totalVotesCast.toLocaleString()}</h4>
+              </div>
+              <div className="mt-4 pt-3 border-t border-gray-100 flex items-baseline justify-between">
+                <span className="text-xs text-gray-500">Across {models.length} contestants</span>
+              </div>
+            </motion.div>
+
+            {/* Vote Share */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="absolute top-3 right-3 text-purple-500/15">
+                <Award size={48} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-purple-600">Winner Share</span>
+                <h4 className="text-xl font-serif font-bold text-[#1a1a1a] mt-1">{winnerVoteShare}%</h4>
+              </div>
+              <div className="mt-4 pt-3 border-t border-gray-100 flex items-baseline justify-between">
+                <span className="text-xs text-gray-500">Of all votes polled</span>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* 2. DIRECT HEAD-TO-HEAD PODIUM COMPARISON */}
+        {winner && runnerUp1 && runnerUp2 && (
+          <div className="bg-white rounded-3xl p-6 md:p-8 border border-brand-gold/30 shadow-lg mb-10">
+            <h3 className="text-lg md:text-xl font-serif font-bold text-[#1a1a1a] mb-2 flex items-center gap-2">
+              <Trophy size={20} className="text-brand-gold" />
+              Podium Lead Comparison (Victory Margin)
+            </h3>
+            <p className="text-xs md:text-sm text-gray-500 mb-6">
+              Visualizing how many votes separated the winner from the runners-up.
+            </p>
+
+            <div className="space-y-6">
+              {/* Winner vs 1st Runner Up */}
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-brand-gold/20">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-3">
+                    <img src={winner.image} alt={winner.name} className="w-10 h-10 rounded-full object-cover border-2 border-brand-gold" />
+                    <span className="font-serif font-bold text-sm text-[#1a1a1a]">{winner.name} (1st)</span>
+                    <span className="text-xs text-gray-400">vs</span>
+                    <img src={runnerUp1.image} alt={runnerUp1.name} className="w-10 h-10 rounded-full object-cover border-2 border-gray-300" />
+                    <span className="font-serif font-bold text-sm text-gray-700">{runnerUp1.name} (2nd)</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 self-start sm:self-auto bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200">
+                    Won by +{leadOverRunnerUp1} votes ({((leadOverRunnerUp1 / runnerUp1Votes) * 100).toFixed(1)}% higher)
+                  </div>
+                </div>
+
+                {/* Comparative bar */}
+                <div className="space-y-2">
+                  <div>
+                    <div className="flex justify-between text-xs font-semibold mb-1">
+                      <span className="text-brand-gold">{winner.name}</span>
+                      <span>{winnerVotes} votes</span>
+                    </div>
+                    <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: '100%' }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-brand-gold to-[#FFDF73] rounded-full"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs font-semibold mb-1">
+                      <span className="text-gray-600">{runnerUp1.name}</span>
+                      <span>{runnerUp1Votes} votes</span>
+                    </div>
+                    <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${(runnerUp1Votes / winnerVotes) * 100}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-gray-400 rounded-full"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Winner vs 2nd Runner Up */}
+              <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-brand-gold/20">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-3">
+                    <img src={winner.image} alt={winner.name} className="w-10 h-10 rounded-full object-cover border-2 border-brand-gold" />
+                    <span className="font-serif font-bold text-sm text-[#1a1a1a]">{winner.name} (1st)</span>
+                    <span className="text-xs text-gray-400">vs</span>
+                    <img src={runnerUp2.image} alt={runnerUp2.name} className="w-10 h-10 rounded-full object-cover border-2 border-[#cd7f32]" />
+                    <span className="font-serif font-bold text-sm text-gray-700">{runnerUp2.name} (3rd)</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 self-start sm:self-auto bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200">
+                    Won by +{leadOverRunnerUp2} votes ({((leadOverRunnerUp2 / runnerUp2Votes) * 100).toFixed(1)}% higher)
+                  </div>
+                </div>
+
+                {/* Comparative bar */}
+                <div className="space-y-2">
+                  <div>
+                    <div className="flex justify-between text-xs font-semibold mb-1">
+                      <span className="text-brand-gold">{winner.name}</span>
+                      <span>{winnerVotes} votes</span>
+                    </div>
+                    <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: '100%' }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-brand-gold to-[#FFDF73] rounded-full"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs font-semibold mb-1">
+                      <span className="text-gray-600">{runnerUp2.name}</span>
+                      <span>{runnerUp2Votes} votes</span>
+                    </div>
+                    <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${(runnerUp2Votes / winnerVotes) * 100}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="h-full bg-[#cd7f32] rounded-full"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3. FULL TOP CONTENDERS HORIZONTAL BAR CHART */}
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 mb-6 gap-2">
+            <div>
+              <h3 className="text-lg md:text-xl font-serif font-bold text-[#1a1a1a]">
+                Vote Distribution & Margins (All Contestants)
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Each bar shows total votes received and percentage of winner's score.
+              </p>
+            </div>
+            <span className="text-xs font-semibold px-3 py-1 bg-gray-100 text-gray-600 rounded-full self-start sm:self-auto">
+              Sorted by Final Vote Count
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {sortedModels.map((model, idx) => {
+              const slug = generateSlug(model.name);
+              const votes = voteCounts[slug] || 0;
+              const percentageOfWinner = winnerVotes > 0 ? ((votes / winnerVotes) * 100).toFixed(0) : 0;
+              const shareOfTotal = totalVotesCast > 0 ? ((votes / totalVotesCast) * 100).toFixed(1) : 0;
+              const diffFromWinner = winnerVotes - votes;
+
+              const isWinner = idx === 0;
+              const isTop3 = idx < 3;
+              const barColor = isWinner 
+                ? 'from-brand-gold to-[#b5952f]' 
+                : idx === 1 
+                ? 'from-gray-400 to-gray-500' 
+                : idx === 2 
+                ? 'from-[#cd7f32] to-[#b36b22]' 
+                : 'from-amber-700/40 to-amber-900/40';
+
+              return (
+                <div key={slug} className="group p-3 rounded-2xl hover:bg-[#FAF8F5] transition-colors border border-transparent hover:border-brand-gold/20">
+                  <div className="flex items-center justify-between text-xs sm:text-sm font-medium mb-1.5 gap-2">
+                    <div className="flex items-center gap-3">
+                      <span className={`w-6 text-center font-bold font-serif ${isWinner ? 'text-brand-gold' : isTop3 ? 'text-gray-700' : 'text-gray-400'}`}>
+                        #{idx + 1}
+                      </span>
+                      <img src={model.image} alt={model.name} className="w-7 h-7 rounded-full object-cover border border-gray-200" />
+                      <span className="font-serif font-bold text-gray-800">{model.name}</span>
+                      {isWinner && (
+                        <span className="text-[10px] bg-brand-gold text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                          Winner
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-gray-400 font-normal hidden sm:inline">
+                        {isWinner ? 'Leading' : `-${diffFromWinner} votes`} ({shareOfTotal}%)
+                      </span>
+                      <span className="font-bold text-sm text-[#1a1a1a] min-w-[50px] text-right">
+                        {isCounting ? '...' : votes.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Graphic Progress Bar */}
+                  <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden relative">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${percentageOfWinner}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.2, delay: Math.min(idx * 0.05, 0.8), ease: "easeOut" }}
+                      className={`h-full rounded-full bg-gradient-to-r ${barColor}`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* --- LEADERBOARD (Premium Pedestal Style) --- */}
